@@ -20,7 +20,8 @@ A `Next.js` portfolio blog for a junior developer with:
 - Run `npm run check` before opening or merging changes.
 - Run `npm run codex:doctor` when setting up a fresh environment or before asking Codex to make larger edits.
 - Read `AGENTS.md` for repository-specific workflow notes.
-- Read `doc/repo-map.md` for a fast codebase entry map before making multi-file changes.
+- Read `docs/README.md` to understand how this repository is documented and maintained.
+- Read `docs/repo-map.md` for a fast codebase entry map before making multi-file changes.
 - If `npm run check` fails with missing tooling such as `tsc`, run `npm install` first.
 
 ## Required environment variables

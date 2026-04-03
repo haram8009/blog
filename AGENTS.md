@@ -18,7 +18,7 @@ Keep changes small, reviewable, and verifiable.
 
 This repository is a `Next.js` App Router blog with Markdown posts and optional GitHub Discussions integration.
 
-Use `doc/repo-map.md` as the fast orientation guide before making non-trivial changes.
+Use `docs/repo-map.md` as the fast orientation guide before making non-trivial changes.
 
 ## First Checks
 
@@ -156,11 +156,10 @@ Skip logs for tiny edits, copy changes, or routine fixes.
 
 Use repository-relative paths:
 
-- `doc/ai-logs/decision-log.md`
-- `doc/ai-logs/prompt-log.md`
-- `doc/ai-logs/failure-log.md`
-- `doc/ai-logs/work-summary.md`
-- `doc/portfolio-draft.md`
+- `docs/ai-logs/decision-log.md`
+- `docs/ai-logs/prompt-log.md`
+- `docs/ai-logs/failure-log.md`
+- `docs/ai-logs/work-summary.md`
 
 ### Logging Rules
 
@@ -209,17 +208,6 @@ Failure log:
 - Impact:
 - Fix:
 - Prevention rule:
-```
-
-Portfolio note:
-
-```md
-## Portfolio Note
-- Problem:
-- My role:
-- AI contribution:
-- My decision:
-- Value:
 ```
 
 ## Ownership

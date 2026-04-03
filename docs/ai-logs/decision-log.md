@@ -36,3 +36,17 @@ Append-only record for reusable technical decisions.
 - Chosen: Rename the shared schema module to `.mts` and update both runtime and validation imports.
 - Why: It removes the warning without changing repository-wide module behavior.
 - Trade-offs: The project now uses a less common TypeScript module extension for this shared file.
+
+## Decision
+- Context: `docs/portfolio-draft.md` no longer mapped to an active workflow and made the documentation structure look more complex than it really was.
+- Options: Keep the dormant file; rename it and wait for a future use case; remove it and clarify the actual doc structure.
+- Chosen: Remove the dormant portfolio draft reference and add a `docs/README.md` that explains how repository documentation is organized.
+- Why: Active documents should explain the current workflow, not preserve speculative structure.
+- Trade-offs: If portfolio-specific writing is needed later, it will need to be introduced intentionally instead of reusing an old placeholder.
+
+## Decision
+- Context: The repository used `doc/` for documentation, but GitHub readers and tooling conventions more commonly expect `docs/`.
+- Options: Keep `doc/`; alias both names; rename the folder to `docs/` and update references.
+- Chosen: Rename `doc/` to `docs/` and update all repository references in one pass.
+- Why: The conventional folder name improves discoverability and reduces needless ambiguity for humans and AI agents.
+- Trade-offs: Historical path references had to be updated, and the rename temporarily widened the diff.
