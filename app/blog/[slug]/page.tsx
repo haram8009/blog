@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CommentPanel } from "@/components/comment-panel";
 import { PostCard } from "@/components/post-card";
@@ -44,32 +45,77 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const recommendations = getRecommendationsForPost(post.slug);
   const allPosts = getAllPosts();
   const recommendedPosts = allPosts.filter((candidate) => recommendations.some((item) => item.slug === candidate.slug));
+  const nextPost = recommendedPosts[0];
 
   return (
-    <div className="space-y-8">
-      <article className="rounded-[2.5rem] border border-[var(--border)] bg-white p-8 shadow-[0_16px_60px_rgba(28,24,19,0.06)]">
-        <div className="mb-6 flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-[var(--border)] px-3 py-1 text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <h1 className="max-w-3xl font-[Trebuchet_MS] text-4xl font-semibold">{post.title}</h1>
-        <p className="mt-5 text-[var(--muted)]">
-          {formatDate(post.date)} · {post.readingTime}
-        </p>
-        <div className="prose mt-10 max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
-      </article>
+    <div className="space-y-12 pb-8">
+      <section className="pt-4">
+        <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition hover:text-[var(--foreground)]">
+          ← Back to archive
+        </Link>
 
-      <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-6">
-        <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Future AI recommendation surface</p>
-        <h2 className="mt-2 font-[Trebuchet_MS] text-2xl font-semibold">Read next</h2>
-        <div className="mt-5 grid gap-6">
-          {recommendedPosts.map((candidate) => (
-            <PostCard key={candidate.slug} post={candidate} />
-          ))}
+        <div className="mt-6 max-w-4xl">
+          <h1 className="hero-title">{post.title}</h1>
+          <p className="mt-4 text-sm text-[var(--muted)]">
+            {formatDate(post.date)} · {post.readingTime}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-[var(--muted-strong)]">
+            {post.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
         </div>
+      </section>
+
+      <section className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
+        <aside className="space-y-8 lg:sticky lg:top-8 lg:self-start">
+          <div>
+            <p className="eyebrow">Published</p>
+            <p className="mt-2 text-sm text-[var(--muted-strong)]">{formatDate(post.date)}</p>
+          </div>
+
+          <div>
+            <p className="eyebrow">Reading</p>
+            <p className="mt-2 text-sm text-[var(--muted-strong)]">{post.readingTime}</p>
+          </div>
+
+          <div>
+            <p className="eyebrow">Tags</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted-strong)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {nextPost ? (
+            <div>
+              <p className="eyebrow">Next</p>
+              <Link href={nextPost.url} className="mt-2 block text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]">
+                {nextPost.title}
+              </Link>
+            </div>
+          ) : null}
+        </aside>
+
+        <article className="min-w-0 border-t border-[var(--border)] pt-6 lg:border-t-0 lg:pt-0">
+          <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }} />
+        </article>
+      </section>
+
+      <section className="border-t border-[var(--border)] pt-8">
+        <p className="eyebrow">Related</p>
+        {recommendedPosts.length > 0 ? (
+          <div className="mt-4">
+            {recommendedPosts.map((candidate) => (
+              <PostCard key={candidate.slug} post={candidate} variant="compact" />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-[var(--muted)]">No related notes</p>
+        )}
       </section>
 
       <CommentPanel slug={post.slug} title={post.title} />

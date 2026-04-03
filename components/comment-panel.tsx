@@ -54,8 +54,8 @@ export function CommentPanel({ slug, title }: { slug: string; title: string }) {
           data?.discussion
             ? ""
             : data?.discussionsConfigured
-              ? "No comments yet. Be the first to start the conversation."
-              : "Comments are not configured for this deployment yet."
+              ? "No comments yet."
+              : "Comments are not configured."
         );
       })
       .catch((error) => {
@@ -97,75 +97,80 @@ export function CommentPanel({ slug, title }: { slug: string; title: string }) {
   };
 
   return (
-    <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-6">
-      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <section className="border-t border-[var(--border)] pt-8">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Comments</p>
-          <h2 className="font-[Trebuchet_MS] text-2xl font-semibold">Join the discussion</h2>
+          <p className="eyebrow">Comments</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">{discussion?.comments.length ?? 0}</p>
         </div>
         {discussion?.url ? (
-          <a href={discussion.url} target="_blank" rel="noreferrer" className="font-[Trebuchet_MS] text-sm font-semibold text-[var(--accent-strong)]">
-            Open in GitHub Discussions
+          <a href={discussion.url} target="_blank" rel="noreferrer" className="text-sm text-[var(--muted)] underline underline-offset-4">
+            GitHub
           </a>
         ) : null}
       </div>
 
-      <div className="mb-6 rounded-[1.5rem] border border-[var(--border)] bg-white p-4">
-        <p className="mb-3 text-sm text-[var(--muted)]">
-          {session?.user ? `Signed in as ${session.user.name ?? "GitHub user"}` : "Sign in with GitHub to post a comment."}
-        </p>
-        {session?.user ? (
-          <>
-            <textarea
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              placeholder={`Share a thought about "${title}"`}
-              rows={4}
-              className="mb-3 w-full resize-none rounded-2xl border border-[var(--border)] p-4 outline-none"
-            />
-            <button
-              type="button"
-              disabled={isPending}
-              onClick={submitComment}
-              className="rounded-full bg-[var(--accent)] px-5 py-2 font-[Trebuchet_MS] text-sm font-semibold text-white disabled:opacity-60"
-            >
-              {isPending ? "Posting..." : "Post comment"}
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={() => signIn("github")}
-            className="rounded-full bg-[var(--foreground)] px-5 py-2 font-[Trebuchet_MS] text-sm font-semibold text-white"
-          >
-            Sign in with GitHub
-          </button>
-        )}
-      </div>
+      <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <div className="space-y-4">
+          <p className="text-sm text-[var(--muted)]">
+            {session?.user ? session.user.name ?? "Signed in" : "GitHub login required"}
+          </p>
 
-      {status ? <p className="mb-4 text-sm text-[var(--muted)]">{status}</p> : null}
-
-      <div className="space-y-4">
-        {discussion?.comments.map((comment) => (
-          <article key={comment.id} className="rounded-[1.5rem] border border-[var(--border)] bg-white p-4">
-            <div className="mb-3 flex items-center gap-3">
-              <Image
-                src={comment.author.avatarUrl}
-                alt={comment.author.login}
-                width={40}
-                height={40}
-                className="rounded-full"
+          {session?.user ? (
+            <div className="space-y-3">
+              <textarea
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                placeholder={`Comment on "${title}"`}
+                rows={6}
+                className="min-h-36 w-full resize-none rounded-2xl border border-[var(--border)] bg-white px-4 py-3 outline-none transition focus:border-[var(--border-strong)]"
               />
-              <div>
-                <a href={comment.author.url} target="_blank" rel="noreferrer" className="font-[Trebuchet_MS] font-semibold">
-                  {comment.author.login}
-                </a>
-                <p className="text-sm text-[var(--muted)]">{formatDate(comment.createdAt)}</p>
-              </div>
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={submitComment}
+                className="button-secondary w-full disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isPending ? "Posting..." : "Post"}
+              </button>
             </div>
-            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: comment.bodyHtml }} />
-          </article>
-        ))}
+          ) : (
+            <button type="button" onClick={() => signIn("github")} className="button-secondary w-full">
+              Sign in
+            </button>
+          )}
+
+          {status ? <p className="text-sm text-[var(--muted)]">{status}</p> : null}
+        </div>
+
+        <div>
+          {discussion?.comments.length ? (
+            <div>
+              {discussion.comments.map((comment) => (
+                <article key={comment.id} className="border-t border-[var(--border)] py-5 first:border-t-0 first:pt-0">
+                  <div className="mb-3 flex items-center gap-3">
+                    <Image
+                      src={comment.author.avatarUrl}
+                      alt={comment.author.login}
+                      width={36}
+                      height={36}
+                      className="rounded-full"
+                    />
+                    <div>
+                      <a href={comment.author.url} target="_blank" rel="noreferrer" className="text-sm font-semibold">
+                        {comment.author.login}
+                      </a>
+                      <p className="text-sm text-[var(--muted)]">{formatDate(comment.createdAt)}</p>
+                    </div>
+                  </div>
+                  <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: comment.bodyHtml }} />
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="border-t border-[var(--border)] py-5 text-sm text-[var(--muted)]">No comments</div>
+          )}
+        </div>
       </div>
     </section>
   );

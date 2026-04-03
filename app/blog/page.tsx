@@ -6,14 +6,15 @@ export default function BlogPage() {
   const tags = getAllTags();
 
   return (
-    <div className="space-y-6">
-      <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-8">
-        <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Blog</p>
-        <h1 className="mt-3 font-[Trebuchet_MS] text-4xl font-semibold">Notes from building, debugging, and learning in public</h1>
-        <p className="mt-4 max-w-3xl text-[var(--muted)]">
-          Posts are written in Markdown, indexed by tags, and structured so a later recommendation system can suggest what to read next.
+    <div className="space-y-8 pb-8">
+      <section className="pt-4">
+        <p className="eyebrow">Blog</p>
+        <h1 className="hero-title mt-4">Notes</h1>
+        <p className="mt-3 text-sm text-[var(--muted)]">
+          {posts.length} posts · {tags.length} tags
         </p>
       </section>
+
       <BlogSearch posts={posts} tags={tags} />
     </div>
   );

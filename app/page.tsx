@@ -1,82 +1,90 @@
 import Link from "next/link";
-import { BlogSearch } from "@/components/blog-search";
-import { PostCard } from "@/components/post-card";
 import { getAllPosts, getAllTags } from "@/lib/content";
 import { projects } from "@/lib/projects";
+import { formatDate } from "@/lib/utils";
 
 export default function HomePage() {
   const posts = getAllPosts();
   const latestPosts = posts.slice(0, 3);
   const featuredProjects = projects.filter((project) => project.featured);
+  const topTags = getAllTags().slice(0, 5);
 
   return (
-    <div className="space-y-8">
-      <section className="grid gap-8 rounded-[2.5rem] border border-[var(--border)] bg-[var(--card)] p-8 shadow-[0_24px_80px_rgba(28,24,19,0.08)] md:grid-cols-[1.3fr_0.7fr]">
-        <div>
-          <p className="mb-4 text-sm uppercase tracking-[0.2em] text-[var(--accent-strong)]">Junior developer portfolio + blog</p>
-          <h1 className="max-w-2xl font-[Trebuchet_MS] text-5xl font-semibold leading-tight">
-            I build frontend projects, write down what I learn, and make my progress easy to evaluate.
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-[var(--muted)]">
-            This site is designed to help recruiters and teammates quickly see how I think, what I have built,
-            and how I turn small wins into repeatable engineering habits.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/blog" className="rounded-full bg-[var(--accent)] px-5 py-3 font-[Trebuchet_MS] text-sm font-semibold text-white">
-              Read the blog
-            </Link>
-            <Link href="/projects" className="rounded-full border border-[var(--border)] bg-white px-5 py-3 font-[Trebuchet_MS] text-sm font-semibold">
-              See projects
-            </Link>
-          </div>
-        </div>
-        <div className="grid gap-4">
-          {[
-            "Practical learning notes after building real features",
-            "Searchable writing archive with tags and future AI recommendations",
-            "GitHub login plus GitHub Discussions comments for public conversations"
-          ].map((item) => (
-            <div key={item} className="rounded-[1.75rem] bg-white p-5">
-              <p className="font-[Trebuchet_MS] font-semibold">{item}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="grid gap-6 md:grid-cols-3">
-        {featuredProjects.map((project) => (
-          <article key={project.name} className="rounded-[1.75rem] border border-[var(--border)] bg-[var(--card)] p-6">
-            <p className="mb-2 text-sm uppercase tracking-[0.16em] text-[var(--muted)]">{project.status}</p>
-            <h2 className="mb-3 font-[Trebuchet_MS] text-2xl font-semibold">{project.name}</h2>
-            <p className="mb-4 text-[var(--muted)]">{project.summary}</p>
-            <p className="text-sm text-[var(--muted)]">{project.stack.join(" · ")}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="space-y-6">
-        <div className="flex items-end justify-between gap-4">
+    <div className="space-y-12 pb-8">
+      <section className="pt-4">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_220px] lg:items-end">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Latest writing</p>
-            <h2 className="font-[Trebuchet_MS] text-3xl font-semibold">Posts that show how I learn</h2>
+            <p className="eyebrow">Notes</p>
+            <h1 className="hero-title mt-4 max-w-4xl">Build logs, debugging, decisions.</h1>
           </div>
-          <Link href="/blog" className="font-[Trebuchet_MS] font-semibold text-[var(--accent-strong)]">
-            See all posts
-          </Link>
-        </div>
-        <div className="grid gap-6">
-          {latestPosts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
+          <div className="flex gap-3 lg:justify-end">
+            <Link href="/blog" className="button-secondary">
+              Blog
+            </Link>
+            <Link href="/projects" className="button-secondary">
+              Projects
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="space-y-5">
+      <section className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_220px]">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Browse the archive</p>
-          <h2 className="font-[Trebuchet_MS] text-3xl font-semibold">Search by topic before AI recommendations land</h2>
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <h2 className="section-title">Latest</h2>
+            <Link href="/blog" className="text-sm text-[var(--muted)] underline underline-offset-4">
+              All notes
+            </Link>
+          </div>
+
+          <div>
+            {latestPosts.map((post) => (
+              <article key={post.slug} className="border-t border-[var(--border)] py-5 first:border-t-0 first:pt-0">
+                <Link href={post.url} className="block">
+                  <h3 className="card-title text-2xl font-semibold transition hover:underline hover:underline-offset-4">
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[var(--muted)]">
+                    {formatDate(post.date)} · {post.readingTime}
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-[var(--muted-strong)]">
+                    {post.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
         </div>
-        <BlogSearch posts={posts} tags={getAllTags()} />
+
+        <aside className="space-y-8">
+          <div>
+            <p className="eyebrow">Topics</p>
+            <div className="mt-3 flex flex-wrap gap-2 lg:flex-col lg:items-start">
+              {topTags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--muted-strong)] transition hover:border-[var(--border-strong)]"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="eyebrow">Projects</p>
+            <div className="mt-3 space-y-2">
+              {featuredProjects.map((project) => (
+                <Link key={project.slug} href={`/projects/${project.slug}`} className="block text-sm text-[var(--muted-strong)] transition hover:text-[var(--foreground)]">
+                  {project.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </aside>
       </section>
     </div>
   );
