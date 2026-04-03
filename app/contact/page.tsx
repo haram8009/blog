@@ -1,14 +1,17 @@
 export default function ContactPage() {
   return (
-    <div className="grid gap-6 md:grid-cols-[1fr_1fr]">
-      <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-8">
-        <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">Contact</p>
-        <h1 className="mt-3 font-[Trebuchet_MS] text-4xl font-semibold">Let&apos;s talk about frontend work, growth, and good product details.</h1>
+    <div className="grid gap-8 pb-8 xl:grid-cols-[220px_minmax(0,1fr)]">
+      <section className="pt-4">
+        <p className="eyebrow">Contact</p>
+        <h1 className="hero-title mt-4 max-w-4xl">Get in touch.</h1>
       </section>
-      <section className="rounded-[2rem] border border-[var(--border)] bg-white p-8 text-[var(--muted)]">
-        <p className="mb-4">Email: hello@example.dev</p>
-        <p className="mb-4">GitHub: github.com/your-handle</p>
-        <p>LinkedIn: linkedin.com/in/your-handle</p>
+
+      <section className="max-w-3xl border-t border-[var(--border)] pt-6 text-[var(--muted-strong)]">
+        <div className="space-y-4">
+          <p>Email: hello@example.dev</p>
+          <p>GitHub: github.com/your-handle</p>
+          <p>LinkedIn: linkedin.com/in/your-handle</p>
+        </div>
       </section>
     </div>
   );

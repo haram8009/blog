@@ -1,22 +1,15 @@
 export default function AboutPage() {
   return (
-    <div className="grid gap-8 md:grid-cols-[0.7fr_1.3fr]">
-      <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-8">
-        <p className="text-sm uppercase tracking-[0.18em] text-[var(--muted)]">About</p>
-        <h1 className="mt-3 font-[Trebuchet_MS] text-4xl font-semibold">Growing into a dependable frontend engineer.</h1>
+    <div className="grid gap-8 pb-8 xl:grid-cols-[220px_minmax(0,1fr)]">
+      <section className="pt-4">
+        <p className="eyebrow">About</p>
+        <h1 className="hero-title mt-4">Frontend engineer in progress.</h1>
       </section>
-      <section className="rounded-[2rem] border border-[var(--border)] bg-white p-8">
-        <div className="space-y-5 text-[var(--muted)]">
-          <p>
-            I am a junior developer focused on frontend product work, clean UI implementation, and documenting what I learn while building.
-          </p>
-          <p>
-            This site is part portfolio and part engineering journal. The goal is simple: show progress clearly, make my project decisions legible, and build a habit of shipping thoughtfully.
-          </p>
-          <p>
-            Right now I care most about React, TypeScript, Next.js, accessibility, debugging workflows, and learning how small design details affect product quality.
-          </p>
-        </div>
+
+      <section className="max-w-3xl space-y-5 text-[var(--muted-strong)]">
+        <p>I work on frontend products with a bias toward clarity, maintainability, and solid UI details.</p>
+        <p>This site keeps the projects and notes from that work.</p>
+        <p>Current focus: React, TypeScript, Next.js, accessibility, debugging.</p>
       </section>
     </div>
   );

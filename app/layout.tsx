@@ -27,9 +27,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <body>
         <Providers>
-          <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-5 pb-10 pt-6 md:px-8">
+          <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-16 pt-6 sm:px-6 lg:px-8">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pt-10">{children}</main>
             <SiteFooter />
           </div>
         </Providers>
