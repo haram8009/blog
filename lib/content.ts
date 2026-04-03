@@ -5,11 +5,11 @@ import readingTime from "reading-time";
 import { remark } from "remark";
 import html from "remark-html";
 import gfm from "remark-gfm";
-import { postFrontmatterSchema } from "@/lib/content-schema.mjs";
-import type { PostFrontmatter } from "@/lib/content-schema.mjs";
+import { postFrontmatterSchema } from "@/lib/content-schema";
+import type { PostFrontmatter } from "@/lib/content-schema";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
-export type { PostFrontmatter } from "@/lib/content-schema.mjs";
+export type { PostFrontmatter } from "@/lib/content-schema";
 
 export type PostSummary = PostFrontmatter & {
   readingTime: string;

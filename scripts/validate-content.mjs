@@ -5,7 +5,7 @@ import { ZodError } from "zod";
 import {
   postFrontmatterSchema,
   requiredPostFrontmatterFields
-} from "../lib/content-schema.mts";
+} from "../lib/content-schema.ts";
 
 const rootDir = process.cwd();
 const postsDir = path.join(rootDir, "content", "posts");
