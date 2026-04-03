@@ -18,6 +18,8 @@ Keep changes small, reviewable, and verifiable.
 
 This repository is a `Next.js` App Router blog with Markdown posts and optional GitHub Discussions integration.
 
+Use `doc/repo-map.md` as the fast orientation guide before making non-trivial changes.
+
 ## First Checks
 
 Before and after meaningful changes:
@@ -68,6 +70,7 @@ Metadata:
 - `npm run check`: content validation + TypeScript
 - `npm run codex:doctor`: repo conventions and setup warnings
 - For comment-flow changes, verify anonymous and signed-in behavior
+- When reading App Router dynamic-segment files from the shell, quote paths such as `'app/blog/[slug]/page.tsx'`
 
 ## Workflow
 

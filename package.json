@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "npm run validate:content",
     "typecheck": "tsc --noEmit",
-    "validate:content": "node scripts/validate-content.mjs",
+    "validate:content": "node --experimental-strip-types scripts/validate-content.mjs",
     "check": "npm run validate:content && npm run typecheck",
     "codex:doctor": "node scripts/check-project.mjs"
   },

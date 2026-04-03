@@ -5,22 +5,11 @@ import readingTime from "reading-time";
 import { remark } from "remark";
 import html from "remark-html";
 import gfm from "remark-gfm";
-import { z } from "zod";
+import { postFrontmatterSchema } from "@/lib/content-schema.mjs";
+import type { PostFrontmatter } from "@/lib/content-schema.mjs";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
-
-const postFrontmatterSchema = z.object({
-  title: z.string().min(1),
-  slug: z.string().min(1),
-  date: z.string().min(1),
-  summary: z.string().min(1),
-  tags: z.array(z.string()).default([]),
-  published: z.boolean().default(false),
-  coverImage: z.string().optional(),
-  discussionId: z.string().optional()
-});
-
-export type PostFrontmatter = z.infer<typeof postFrontmatterSchema>;
+export type { PostFrontmatter } from "@/lib/content-schema.mjs";
 
 export type PostSummary = PostFrontmatter & {
   readingTime: string;

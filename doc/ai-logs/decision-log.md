@@ -15,3 +15,24 @@ Append-only record for reusable technical decisions.
 - Chosen: Add lightweight Node-based scripts for content validation and project diagnostics.
 - Why: They run without introducing new dependencies and catch common failures early for both humans and agents.
 - Trade-offs: The checks are intentionally narrow and do not replace full runtime or integration coverage.
+
+## Decision
+- Context: The repository structure was small enough to navigate manually, but AI-agent work still depended on rediscovering which files owned each feature flow.
+- Options: Leave orientation implicit in the folder tree; fully reorganize into feature folders; add a lightweight repo map and point existing docs to it.
+- Chosen: Add a lightweight repo map document and use it as the primary orientation layer for non-trivial changes.
+- Why: It lowers agent exploration cost without paying the churn of a structural refactor.
+- Trade-offs: The map must stay current as flows expand, or it becomes stale documentation.
+
+## Decision
+- Context: Post frontmatter rules were duplicated between runtime parsing and the validation script, which made AI edits more error-prone.
+- Options: Keep duplicate logic and sync manually; share only field names; move the full schema into one shared module.
+- Chosen: Move the frontmatter schema into a shared TypeScript module and have both runtime loading and content validation consume it.
+- Why: A single source of truth reduces drift and makes future schema changes smaller and safer.
+- Trade-offs: The validation script now depends on Node's type-stripping support when importing the shared TypeScript module.
+
+## Decision
+- Context: The first shared-schema implementation introduced a Node module warning during content validation.
+- Options: Accept the warning; switch the whole repository to package-level ESM; move the shared schema to an `.mts` module with explicit ESM semantics.
+- Chosen: Rename the shared schema module to `.mts` and update both runtime and validation imports.
+- Why: It removes the warning without changing repository-wide module behavior.
+- Trade-offs: The project now uses a less common TypeScript module extension for this shared file.
